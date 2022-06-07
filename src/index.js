@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import os from 'os';
 import readline from 'readline';
+import fsProm from 'fs/promises';
 
 const homeDir = os.homedir();
 const rootDir = homeDir.slice(0, homeDir.indexOf('\\'));
@@ -42,7 +43,7 @@ const chooseCommand = (input) => {
       console.log('command: cd');
         break;
     case 'ls':
-      console.log('command: ls');
+      showList();
         break;
     case 'cat':
       console.log('command: cat');
@@ -89,5 +90,17 @@ const goUpper = () => {
   } else {
     userDir = upperUserDir + '\\';
   }
-  console.log(`You are currently in ${userDir}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+  console.log(`\nYou are currently in ${userDir}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+};
+
+const showList = async () => {
+  console.log(`\nList of files and folders in a directory ${userDir}\n`);
+
+  const files = await fsProm.readdir(userDir);
+  files.forEach(async (file) => {
+    // const filePath = path.join(userDir, `${file}`);
+    // const fileInf = path.parse(filePath);
+    // console.log(fileInf.name);
+    console.log(file);
+  })
 };
