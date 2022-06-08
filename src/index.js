@@ -5,25 +5,28 @@ import path from 'path';
 import os from 'os';
 import readline from 'readline';
 import fsProm from 'fs/promises';
+import child_process from 'child_process';
 
-const homeDir = os.homedir();
-const rootDir = homeDir.slice(0, homeDir.indexOf('\\'));
-let userDir = homeDir;
+import { goUpper } from './modules/ToUpperDirectory.js';
+import { showList } from './modules/ShowList.js';
+import { goToFolder } from './modules/NavigateToFolder.js';
+
+const homeDir = process.env.HOME;
+const rootDir = process.env.HOMEDRIVE;
+process.env.USERDIR = homeDir;
 const args = process.argv;
 
 const { stdin, stdout } = process;
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const rl = readline.createInterface({
   input: stdin,
   output: stdout
 });
 
 export const fileManagerStart = () => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-
   rl.write(`Welcome to the File Manager, ${args[2].slice(11)}!\n\n`);
-  rl.write(`You are currently in ${userDir}\n(If you want to finish: enter "exit" or press Ctrl + C)\n\n`);
+  rl.write(`You are currently in ${process.env.USERDIR}\n(If you want to finish: enter "exit" or press Ctrl + C)\n\n`);
   rl.on('line', (input) => chooseCommand(input));
 
   rl.on('close', () => console.log(`Thank you for using File Manager, ${args[2].slice(11)}!\n`));
@@ -31,19 +34,28 @@ export const fileManagerStart = () => {
 
 fileManagerStart();
 
+const createChildrenProcess = (path, args) => {
+  const childProcess = child_process.fork(path, args);
+
+  childProcess.on('message', (msg) => process.env.USERDIR = msg);
+};
+
 const chooseCommand = (input) => {
   const commandArr = input.split(' ');
   const command = commandArr[0];
 
   switch (command) {
     case 'up':
-        goUpper();
+        // createChildrenProcess(path.join(__dirname, 'modules', 'ToUpperDirectory'), [process.env.USERDIR]);
+        goUpper(process.env.USERDIR);
         break;
     case 'cd':
-      console.log('command: cd');
+      // process.env.USERDIR = goToFolder(process.env.USERDIR, commandArr[1]);
+      goToFolder(commandArr[1]);
         break;
     case 'ls':
-      showList();
+      // createChildrenProcess(path.join(__dirname, 'modules', 'ShowList'), [process.env.USERDIR]);
+      showList(process.env.USERDIR);
         break;
     case 'cat':
       console.log('command: cat');
@@ -80,27 +92,5 @@ const chooseCommand = (input) => {
         break;
     default: console.log('Invalid input');
  }
+ console.log(`\nYou are currently in ${process.env.USERDIR}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
 }
-
-const goUpper = () => {
-  const upperUserDir = userDir.slice(0, userDir.lastIndexOf('\\'));
-
-  if (upperUserDir !== rootDir) {
-    userDir = upperUserDir;
-  } else {
-    userDir = upperUserDir + '\\';
-  }
-  console.log(`\nYou are currently in ${userDir}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
-};
-
-const showList = async () => {
-  console.log(`\nList of files and folders in a directory ${userDir}\n`);
-
-  const files = await fsProm.readdir(userDir);
-  files.forEach(async (file) => {
-    // const filePath = path.join(userDir, `${file}`);
-    // const fileInf = path.parse(filePath);
-    // console.log(fileInf.name);
-    console.log(file);
-  })
-};
