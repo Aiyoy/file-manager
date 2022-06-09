@@ -15,6 +15,8 @@ import { moveFile } from './modules/MovingFile.js';
 import { removeFile } from './modules/DeletingFile.js';
 import { getSystemInformation } from './modules/SystemInformation.js';
 import { calcHash } from './modules/CalculatingHash.js';
+import { compressFile } from './modules/CompressingFile.js';
+import { decompressFile } from './modules/DecompressingFile.js';
 
 const { stdin, stdout } = process;
 
@@ -75,10 +77,10 @@ const chooseCommand = (input) => {
       calcHash(commandArr[1]);
         break;
     case 'compress':
-      console.log('command: compress');
+      compressFile(commandArr[1], commandArr[2]);
         break;
     case 'decompress':
-      console.log('command: decompress');
+      decompressFile(commandArr[1], commandArr[2]);
         break;
     case '.exit':
       rl.close();
