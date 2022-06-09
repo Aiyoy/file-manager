@@ -1,11 +1,8 @@
 // npm run start -- --username=aiyoy
 
-import { fileURLToPath } from 'url';
-import path from 'path';
 import os from 'os';
 import readline from 'readline';
-import fsProm from 'fs/promises';
-import child_process from 'child_process';
+// import child_process from 'child_process';
 
 import { goUpper } from './modules/ToUpperDirectory.js';
 import { showList } from './modules/ShowList.js';
@@ -16,6 +13,7 @@ import { renameFile } from './modules/RenamingFile.js';
 import { copyFileByPath } from './modules/CopyingFile.js';
 import { moveFile } from './modules/MovingFile.js';
 import { removeFile } from './modules/DeletingFile.js';
+import { getSystemInformation } from './modules/SystemInformation.js';
 
 const { stdin, stdout } = process;
 
@@ -79,7 +77,7 @@ const chooseCommand = (input) => {
         removeFile(commandArr[1]);
         break;
     case 'os':
-      console.log('command: os');
+      getSystemInformation(commandArr[1]);
         break;
     case 'hash':
       console.log('command: hash');
