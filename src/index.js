@@ -10,8 +10,11 @@ import child_process from 'child_process';
 import { goUpper } from './modules/ToUpperDirectory.js';
 import { showList } from './modules/ShowList.js';
 import { goToFolder } from './modules/NavigateToFolder.js';
-import { readFileByPath } from './modules/fileReading.js';
+import { readFileByPath } from './modules/FileReading.js';
 import { createFile } from './modules/AddingFile.js';
+import { renameFile } from './modules/RenamingFile.js';
+import { copyFileByPath } from './modules/CopyingFile.js';
+import { moveFile } from './modules/MovingFile.js';
 
 const { stdin, stdout } = process;
 
@@ -63,13 +66,13 @@ const chooseCommand = (input) => {
         createFile(commandArr[1]);
         break;
     case 'rn':
-      console.log('command: rn');
+      renameFile(commandArr[1], commandArr[2]);
         break;
     case 'cp':
-      console.log('command: cp');
+      copyFileByPath(commandArr[1], commandArr[2]);
         break;
     case 'mv':
-      console.log('command: mv');
+      moveFile(commandArr[1], commandArr[2]);
         break;
     case 'rm':
         console.log('command: rm');

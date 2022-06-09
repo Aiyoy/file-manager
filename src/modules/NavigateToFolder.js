@@ -3,12 +3,12 @@
 // cd .\Links\smth
 // cd D:\Users\Public
 
-import fs from 'fs';
-import path from 'path';
-
-import { goUpper } from './ToUpperDirectory.js';
-
 const goToFolder = async (pathToFolder) => {
+  if (!pathToFolder) {
+    console.log(new Error('\nYou must enter a path to folder. Try again\n'));
+    return;
+  }
+
   try {
     process.chdir(pathToFolder);
   } catch (error) {
