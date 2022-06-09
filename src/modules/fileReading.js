@@ -18,7 +18,7 @@ const readFileByPath = async (pathToFile) => {
 
   fs.access(convertingPath, (error) => {
     try {
-      if (error) throw new Error('\nInvalid input! Try a different path\n');
+      if (error) throw new Error(`\nThe specified file does not exist: ${convertingPath}!! Try a different path\n`);
       const readableStream = fs.createReadStream(convertingPath, "utf8");
       readableStream.on('data', (data) => {
         console.log(`\nInformation from a file ${path.parse(pathToFile).base}\n`);

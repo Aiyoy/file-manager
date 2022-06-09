@@ -35,7 +35,7 @@ const moveFile = async (pathToFile, newFileDir) => {
             } catch (err) {
               console.log(err);
             }
-          })
+          });
           console.log(`\nA file with name ${fileName} moved to the ${newFileDir}!\n`);
         } catch (err) {
           console.log(err);

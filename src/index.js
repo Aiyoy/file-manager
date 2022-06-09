@@ -15,6 +15,7 @@ import { createFile } from './modules/AddingFile.js';
 import { renameFile } from './modules/RenamingFile.js';
 import { copyFileByPath } from './modules/CopyingFile.js';
 import { moveFile } from './modules/MovingFile.js';
+import { removeFile } from './modules/DeletingFile.js';
 
 const { stdin, stdout } = process;
 
@@ -75,7 +76,7 @@ const chooseCommand = (input) => {
       moveFile(commandArr[1], commandArr[2]);
         break;
     case 'rm':
-        console.log('command: rm');
+        removeFile(commandArr[1]);
         break;
     case 'os':
       console.log('command: os');
