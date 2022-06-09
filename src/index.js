@@ -10,23 +10,22 @@ import child_process from 'child_process';
 import { goUpper } from './modules/ToUpperDirectory.js';
 import { showList } from './modules/ShowList.js';
 import { goToFolder } from './modules/NavigateToFolder.js';
-
-const homeDir = process.env.HOME;
-const rootDir = process.env.HOMEDRIVE;
-process.env.USERDIR = homeDir;
-const args = process.argv;
+import { readFileByPath } from './modules/fileReading.js';
+import { createFile } from './modules/AddingFile.js';
 
 const { stdin, stdout } = process;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 const rl = readline.createInterface({
   input: stdin,
   output: stdout
 });
 
 export const fileManagerStart = () => {
+  const args = process.argv;
+
+  process.chdir(os.homedir());
   rl.write(`Welcome to the File Manager, ${args[2].slice(11)}!\n\n`);
-  rl.write(`You are currently in ${process.env.USERDIR}\n(If you want to finish: enter "exit" or press Ctrl + C)\n\n`);
+  rl.write(`You are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n\n`);
   rl.on('line', (input) => chooseCommand(input));
 
   rl.on('close', () => console.log(`Thank you for using File Manager, ${args[2].slice(11)}!\n`));
@@ -34,11 +33,11 @@ export const fileManagerStart = () => {
 
 fileManagerStart();
 
-const createChildrenProcess = (path, args) => {
-  const childProcess = child_process.fork(path, args);
+// const createChildrenProcess = (path, args) => {
+//   const childProcess = child_process.fork(path, args);
 
-  childProcess.on('message', (msg) => process.env.USERDIR = msg);
-};
+//   childProcess.on('message', (msg) => process.env.USERDIR = msg);
+// };
 
 const chooseCommand = (input) => {
   const commandArr = input.split(' ');
@@ -47,7 +46,7 @@ const chooseCommand = (input) => {
   switch (command) {
     case 'up':
         // createChildrenProcess(path.join(__dirname, 'modules', 'ToUpperDirectory'), [process.env.USERDIR]);
-        goUpper(process.env.USERDIR);
+        process.chdir(goUpper(process.cwd()));
         break;
     case 'cd':
       // process.env.USERDIR = goToFolder(process.env.USERDIR, commandArr[1]);
@@ -55,13 +54,13 @@ const chooseCommand = (input) => {
         break;
     case 'ls':
       // createChildrenProcess(path.join(__dirname, 'modules', 'ShowList'), [process.env.USERDIR]);
-      showList(process.env.USERDIR);
+      showList(process.cwd());
         break;
     case 'cat':
-      console.log('command: cat');
+      readFileByPath(commandArr[1]);
         break;
     case 'add':
-        console.log('command: add');
+        createFile(commandArr[1]);
         break;
     case 'rn':
       console.log('command: rn');
@@ -92,5 +91,5 @@ const chooseCommand = (input) => {
         break;
     default: console.log('Invalid input');
  }
- console.log(`\nYou are currently in ${process.env.USERDIR}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+ console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
 }

@@ -16,16 +16,8 @@
 // process.send(userDir);
 // process.disconnect();
 
-const goUpper = () => {
-  const userDir = process.env.USERDIR;
-  const rootDir = process.env.HOMEDRIVE;
-  const upperUserDir = userDir.slice(0, userDir.lastIndexOf('\\'));
+import path from 'path';
 
-  if (userDir !== rootDir) {
-    process.env.USERDIR = upperUserDir;
-  } else {
-    console.log('\nYou cannot go above the root directory!');
-  }
-};
+const goUpper = (userDir) => path.join(userDir, '..');
 
 export {goUpper};
