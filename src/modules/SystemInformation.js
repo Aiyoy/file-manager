@@ -25,12 +25,12 @@ const getSystemInformation = (flag) => {
     case '--cpus':
       const CPUsArr = [];
       os.cpus().forEach(cpu => {
-        if (!CPUsArr.includes(cpu.model)) {
-          CPUsArr.push(cpu.model)
-        }
+        const speed = `${(cpu.speed / 1000).toFixed(2)} GHz`;
+        CPUsArr.push({ model: cpu.model, speed: speed})
       });
 
-      console.log(`Total processors: ${CPUsArr.length}\n${CPUsArr.splice('/n')}`);
+      console.log(`Total processors: ${CPUsArr.length}`);
+      console.log(CPUsArr);
       break;
     case '--homedir':
       console.log('Home directory: ', os.homedir());

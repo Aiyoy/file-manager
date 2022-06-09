@@ -1,14 +1,11 @@
-// cat C:\Users\Public\fileForReading.txt
-// cat C:\Users\Public\fileForReing.txt
+// hash C:\Users\Veron\newFile.txt
 
 import fs from 'fs';
-import path from 'path';
+import crypto from 'crypto';
 
 import { convertPath } from './ConvertingPath.js';
 
-const { stdout } = process;
-
-const readFileByPath = async (pathToFile) => {
+const calcHash = async (pathToFile) => {
   if (!pathToFile) {
     console.log(new Error('\nYou must enter a path to file. Try again\n'));
     return;
@@ -20,14 +17,18 @@ const readFileByPath = async (pathToFile) => {
     try {
       if (error) throw new Error(`\nThe specified file does not exist: ${convertingPath}! Try a different path\n`);
       const readableStream = fs.createReadStream(convertingPath, "utf8");
-      readableStream.on('data', (data) => {
-        console.log(`\nInformation from a file ${path.parse(pathToFile).base}\n`);
-        stdout.write(`${data}\n\n`);
-      });
+      const hash = crypto.createHash('sha256');
+      hash.setEncoding('hex');
+
+      readableStream.on('end', function() {
+        hash.end();
+        console.log('Hash: ', hash.read());
+      });    
+      readableStream.pipe(hash);
     } catch (err) {
       console.log(err);
     }      
   });
 };
 
-export {readFileByPath};
+export {calcHash};

@@ -14,6 +14,7 @@ import { copyFileByPath } from './modules/CopyingFile.js';
 import { moveFile } from './modules/MovingFile.js';
 import { removeFile } from './modules/DeletingFile.js';
 import { getSystemInformation } from './modules/SystemInformation.js';
+import { calcHash } from './modules/CalculatingHash.js';
 
 const { stdin, stdout } = process;
 
@@ -35,27 +36,18 @@ export const fileManagerStart = () => {
 
 fileManagerStart();
 
-// const createChildrenProcess = (path, args) => {
-//   const childProcess = child_process.fork(path, args);
-
-//   childProcess.on('message', (msg) => process.env.USERDIR = msg);
-// };
-
 const chooseCommand = (input) => {
   const commandArr = input.split(' ');
   const command = commandArr[0];
 
   switch (command) {
     case 'up':
-        // createChildrenProcess(path.join(__dirname, 'modules', 'ToUpperDirectory'), [process.env.USERDIR]);
         process.chdir(goUpper(process.cwd()));
         break;
     case 'cd':
-      // process.env.USERDIR = goToFolder(process.env.USERDIR, commandArr[1]);
       goToFolder(commandArr[1]);
         break;
     case 'ls':
-      // createChildrenProcess(path.join(__dirname, 'modules', 'ShowList'), [process.env.USERDIR]);
       showList(process.cwd());
         break;
     case 'cat':
@@ -80,7 +72,7 @@ const chooseCommand = (input) => {
       getSystemInformation(commandArr[1]);
         break;
     case 'hash':
-      console.log('command: hash');
+      calcHash(commandArr[1]);
         break;
     case 'compress':
       console.log('command: compress');
@@ -88,7 +80,7 @@ const chooseCommand = (input) => {
     case 'decompress':
       console.log('command: decompress');
         break;
-    case 'exit':
+    case '.exit':
       rl.close();
         break;
     default: console.log('Invalid input');
