@@ -1,8 +1,7 @@
-// npm run start -- --username=aiyoy
+// npm run start -- --username=username
 
 import os from 'os';
 import readline from 'readline';
-// import child_process from 'child_process';
 
 import { goUpper } from './modules/ToUpperDirectory.js';
 import { showList } from './modules/ShowList.js';
@@ -26,14 +25,14 @@ const rl = readline.createInterface({
 });
 
 export const fileManagerStart = () => {
-  const args = process.argv;
+  const userName = process.argv[2].slice(11);
 
   process.chdir(os.homedir());
-  rl.write(`Welcome to the File Manager, ${args[2].slice(11)}!\n\n`);
-  rl.write(`You are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n\n`);
+  rl.write(`Welcome to the File Manager, ${userName[0].toUpperCase() + userName.substring(1).toLowerCase()}!\n\n`);
+  rl.write(`You are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n\n`);
   rl.on('line', (input) => chooseCommand(input));
 
-  rl.on('close', () => console.log(`Thank you for using File Manager, ${args[2].slice(11)}!\n`));
+  rl.on('close', () => console.log(`Thank you for using File Manager, ${userName[0].toUpperCase() + userName.substring(1).toLowerCase()}!\n`));
 };
 
 fileManagerStart();
@@ -85,7 +84,10 @@ const chooseCommand = (input) => {
     case '.exit':
       rl.close();
         break;
-    default: console.log('Invalid input');
- }
- console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+    default: 
+      console.log('Invalid input');
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+      break;
+  }
+  // console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
 }

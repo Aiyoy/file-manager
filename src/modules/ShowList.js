@@ -1,16 +1,17 @@
 import fsProm from 'fs/promises';
-import path from 'path';
 
 const showList = async (userDir) => {
-  console.log(`\nList of files and folders in a directory ${userDir}\n`);
+  try {
+    console.log(`\nList of files and folders in a directory ${userDir}\n`);
 
-  const files = await fsProm.readdir(userDir, {withFileTypes: true});
-  files.forEach(async (file) => {
-    // const filePath = path.join(userDir, `${file}`);
-    // const fileInf = path.parse(filePath);
-    // console.log(file.isDirectory());
-    console.log(`${file.name} - ${file.isDirectory ? 'directory' : 'file'}`);
-  })
+    const files = await fsProm.readdir(userDir, {withFileTypes: true});
+    files.forEach(async (file) => {
+      console.log(`${file.name} - ${file.isDirectory() ? 'directory' : 'file'}`);
+    })
+    console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+  } catch (err) {
+    console.log(new Error('\nOperation failed'));
+  }
 };
 
 export {showList};

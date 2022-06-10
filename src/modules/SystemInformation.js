@@ -1,14 +1,8 @@
-// os --EOL
-// os --cpus
-// os --homedir
-// os --username
-// os --architecture
-
 import os from 'os';
 
 const getSystemInformation = (flag) => {
   if (!flag) {
-    console.log(new Error('\nYou need to choose what information about the operating system you want to receive(--EOL, --cpus, --homedir, --username or --architecture). Try again\n'));
+    console.log('\nYou need to choose what information about the operating system you want to receive(--EOL, --cpus, --homedir, --username or --architecture). Try again\n');
     return;
   }
 
@@ -29,7 +23,7 @@ const getSystemInformation = (flag) => {
         CPUsArr.push({ model: cpu.model, speed: speed})
       });
 
-      console.log(`Total processors: ${CPUsArr.length}`);
+      console.log(`Total CPUs: ${CPUsArr.length}`);
       console.log(CPUsArr);
       break;
     case '--homedir':
@@ -41,9 +35,9 @@ const getSystemInformation = (flag) => {
     case '--architecture':
       console.log('CPU architecture: ', os.arch());
       break;
-    default: console.log('Invalid input');
+    default: console.log(new Error(`\nOperation failed\n`));
   }
-
+  console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
 };
 
 export {getSystemInformation};

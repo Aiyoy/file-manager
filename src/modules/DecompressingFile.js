@@ -1,5 +1,3 @@
-// decompress C:\Users\Veron\newFile.txt.gz C:\Users\Veron
-
 import fs from 'fs';
 import path from 'path';
 import zlib from 'zlib';
@@ -9,53 +7,61 @@ import { convertPath } from './ConvertingPath.js';
 
 const decompressFile = async (pathToFile, pathToDestination) => {
   if (!pathToFile && !pathToDestination) {
-    console.log(new Error('\nYou must enter a path to file and a path to destination. Try again\n'));
+    console.log('\nYou must enter a path to file and a path to destination. Try again\n');
     return;
   }
   if (!pathToFile) {
-    console.log(new Error('\nYou must enter a path to file. Try again\n'));
+    console.log('\nYou must enter a path to file. Try again\n');
     return;
   }
   if (!pathToDestination) {
-    console.log(new Error('\nYou must enter a path to destination. Try again\n'));
+    console.log('\nYou must enter a path to destination. Try again\n');
     return;
   }
   
   const convertingPathToFile = convertPath(pathToFile);
   const convertingPathToDestination = convertPath(pathToDestination);
+  const fileName = path.parse(convertingPathToFile).base;
+  const newFileName = fileName.slice(0, fileName.lastIndexOf('.'));
+  const pathToCopy = path.join(convertingPathToDestination, newFileName);
 
   fs.access(convertingPathToFile, (error) => {
     try {
-      if (error) throw new Error(`\nThe specified file does not exist: ${convertingPathToFile}! Try a different path\n`);
+      if (error) throw new Error(`\nOperation failed\n`);
       fs.access(convertingPathToDestination, (error) => {
         try {
-          if (error) throw new Error(`\nThe specified directory does not exist: ${convertingPathToDestination}! Try a different path\n`);
+          if (error) throw new Error(`\nOperation failed\n`);
           
           const brot = zlib.createBrotliDecompress();
           const source = fs.createReadStream(convertingPathToFile);
-          const destination = fs.createWriteStream(path.join(convertingPathToDestination, `\\${path.parse(convertingPathToFile).name}`));
+          const destination = fs.createWriteStream(pathToCopy);
           
           pipeline(source, brot, destination, (err) => {
             if (err) {
-              console.log(new Error(`\nSomething went wrong... Try again\n`));
+              console.log(new Error(`\nOperation failed\n`));
+              console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
               return;
             }
             console.log(`\nFile ${path.parse(pathToFile).base} decompressed\n`);
 
             fs.unlink(convertingPathToFile, error => {
               try {
-                if (error) throw new Error(`\nSomething went wrong... Try again\n`);
+                if (error) throw new Error(`\nOperation failed\n`);
               } catch (err) {
                 console.log(err);
+                console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
               }
             });
+            console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
           });
         } catch (err) {
           console.log(err);
+          console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
         }
       });
     } catch (err) {
       console.log(err);
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
     }      
   });
 };

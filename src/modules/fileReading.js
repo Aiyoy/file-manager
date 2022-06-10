@@ -1,6 +1,3 @@
-// cat C:\Users\Public\fileForReading.txt
-// cat C:\Users\Public\fileForReing.txt
-
 import fs from 'fs';
 import path from 'path';
 
@@ -10,7 +7,7 @@ const { stdout } = process;
 
 const readFileByPath = async (pathToFile) => {
   if (!pathToFile) {
-    console.log(new Error('\nYou must enter a path to file. Try again\n'));
+    console.log('\nYou must enter a path to file. Try again\n');
     return;
   }
   
@@ -18,12 +15,19 @@ const readFileByPath = async (pathToFile) => {
 
   fs.access(convertingPath, (error) => {
     try {
-      if (error) throw new Error(`\nThe specified file does not exist: ${convertingPath}! Try a different path\n`);
+      if (error) throw new Error(`\nOperation failed\n`);
       const readableStream = fs.createReadStream(convertingPath, "utf8");
+      console.log(`\nInformation from a file ${path.parse(pathToFile).base}\n`);
       readableStream.on('data', (data) => {
-        console.log(`\nInformation from a file ${path.parse(pathToFile).base}\n`);
         stdout.write(`${data}\n\n`);
       });
+      readableStream.on('end', () => {
+        console.log(`You are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+      });
+      readableStream.on('error', (error) => {
+        console.log(new Error(`\nOperation failed\n`));
+      });
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
     } catch (err) {
       console.log(err);
     }      
