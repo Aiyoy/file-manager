@@ -1,0 +1,12 @@
+{
+  "name": "file-manager",
+  "version": "1.0.0",
+  "description": "file-manager custom app",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": ["nodejs", "assignments", "alreadybored"],
+  "author": "aiyoy",
+  "license": "ISC"
+}
