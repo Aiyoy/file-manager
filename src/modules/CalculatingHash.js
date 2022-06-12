@@ -21,7 +21,7 @@ const calcHash = async (pathToFile) => {
       readableStream.on('end', function() {
         hash.end();
         console.log('Hash: ', hash.read());
-        console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+        console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
       });
 
       readableStream.on('error', (error) => {
@@ -31,7 +31,7 @@ const calcHash = async (pathToFile) => {
       readableStream.pipe(hash);
     } catch (err) {
       console.log(new Error(`\nOperation failed\n`));
-      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
     }      
   });
 };

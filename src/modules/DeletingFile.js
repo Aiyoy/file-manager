@@ -15,10 +15,10 @@ const removeFile = async (pathToFile) => {
     try {
       if (error) throw error;
       console.log(`\nFile ${path.parse(pathToFile).base} removed\n`);
-      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
     } catch (err) {
       console.log(new Error(`\nOperation failed\n`));
-      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
     }
   });
 };

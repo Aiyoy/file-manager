@@ -8,7 +8,7 @@ const showList = async (userDir) => {
     files.forEach(async (file) => {
       console.log(`${file.name} - ${file.isDirectory() ? 'directory' : 'file'}`);
     })
-    console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+    console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
   } catch (err) {
     console.log(new Error('\nOperation failed'));
   }

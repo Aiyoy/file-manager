@@ -1,5 +1,3 @@
-// npm run start -- --username=username
-
 import os from 'os';
 import readline from 'readline';
 
@@ -86,8 +84,7 @@ const chooseCommand = (input) => {
         break;
     default: 
       console.log('Invalid input');
-      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
       break;
   }
-  // console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
 }

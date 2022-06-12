@@ -10,7 +10,7 @@ const goToFolder = async (pathToFolder) => {
 
   try {
     process.chdir(convertingPathToFile);
-    console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+    console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
   } catch (error) {
     console.log(new Error('\nOperation failed'));
   }

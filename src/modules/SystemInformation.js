@@ -8,13 +8,8 @@ const getSystemInformation = (flag) => {
 
   switch (flag) {
     case '--EOL':
-      //как вывести перенос строки в консоль
-      const charCode = os.EOL.charCodeAt();
-      if (charCode === 10) {
-        console.log('EOL: ', '\\n');
-      } else if (charCode === 13) {
-        console.log('EOL: ', '\\r\\n');
-      }      
+      const eol = os.EOL;
+      console.log('EOL: ', JSON.stringify(eol));     
       break;
     case '--cpus':
       const CPUsArr = [];
@@ -37,7 +32,7 @@ const getSystemInformation = (flag) => {
       break;
     default: console.log(new Error(`\nOperation failed\n`));
   }
-  console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+  console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
 };
 
 export {getSystemInformation};

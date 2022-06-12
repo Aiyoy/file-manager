@@ -21,19 +21,17 @@ const compressFile = async (pathToFile, pathToDestination) => {
   
   const convertingPathToFile = convertPath(pathToFile);
   const convertingPathToDestination = convertPath(pathToDestination);
-  const fileName = path.parse(convertingPathToFile).base + '.gz';
-  const pathToCopy = path.join(convertingPathToDestination, fileName);
 
   fs.access(convertingPathToFile, (error) => {
     try {
       if (error) throw new Error(`\nOperation failed\n`);
       fs.access(convertingPathToDestination, (error) => {
         try {
-          if (error) throw new Error(`\nOperation failed\n`);
+          if (!error) throw new Error(`\nOperation failed\n`);
           
           const brot = zlib.createBrotliCompress();
           const source = fs.createReadStream(convertingPathToFile);
-          const destination = fs.createWriteStream(pathToCopy);
+          const destination = fs.createWriteStream(convertingPathToDestination);
           
           pipeline(source, brot, destination, (err) => {
             if (err) {
@@ -47,17 +45,19 @@ const compressFile = async (pathToFile, pathToDestination) => {
                 if (error) throw new Error(`\nOperation failed\n`);
               } catch (err) {
                 console.log(err);
+                console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
               }
             });
-            console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+            console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
           });
         } catch (err) {
           console.log(err);
-          console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+          console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
         }
       });
     } catch (err) {
       console.log(err);
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
     }      
   });
 };

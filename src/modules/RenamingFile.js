@@ -30,10 +30,10 @@ const renameFile = async (pathToFile, newFileName) => {
         }
       );
       console.log(`File renamed to ${newFileName}`);
-      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
     } catch (err) {
       console.log(new Error(`\nOperation failed\n`));
-      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);
     }   
   });
 };

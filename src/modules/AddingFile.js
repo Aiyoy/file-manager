@@ -16,15 +16,15 @@ const createFile = async (fileName) => {
         try {
           if (error) throw new Error('\nOperation failed\n');
           console.log(`File ${fileName} created\n`);
-          console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);   
+          console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);   
         } catch (err) {
           console.log(err);
-          console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);   
+          console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);   
         }
       });      
     } catch (err) {
       console.log(err);
-      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter "exit" or press Ctrl + C)\n`);   
+      console.log(`\nYou are currently in ${process.cwd()}\n(If you want to finish: enter ".exit" or press Ctrl + C)\n`);   
     }   
   });
 };
